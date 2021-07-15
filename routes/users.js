@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const userService = require("services/user_service");
+const userService = require("../services/user_service");
 
 /* GET all users. */
 router.get("/", async function (req, res, next) {

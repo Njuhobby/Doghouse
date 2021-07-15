@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 const userService = require("../services/user_service");
-const jwtCommon = require("../common/jwt");
+const jwtCommon = require("../const/jwt");
 
 const authMiddleware = function (req, res, next) {
   const { authorization } = req.headers;
