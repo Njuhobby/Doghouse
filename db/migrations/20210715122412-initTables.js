@@ -1,13 +1,11 @@
 "use strict";
-const userModel = require("../models/User");
-const companyModel = require("../models/Company");
-const jobModel = require("../models/Job");
+const models = require("../models");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("Users", userModel);
-    await queryInterface.createTable("Companies", companyModel);
-    await queryInterface.createTable("Jobs", jobModel);
+    await queryInterface.createTable("Users", models.user);
+    await queryInterface.createTable("Companies", models.company);
+    await queryInterface.createTable("Jobs", models.job);
   },
 
   down: async (queryInterface, Sequelize) => {
