@@ -4,14 +4,18 @@
     "password": "900722JYHjyh",
     "database": "yuanchenggo",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "seederStorage": "sequelize",
+    "seederStorageTableName": "SequelizeSeedData"
   },
   "production": {
     "username": "postgres",
     "password": null,
     "database": "database_production",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "seederStorage": "sequelize",
+    "seederStorageTableName": "SequelizeSeedData"
   }
 }
 
