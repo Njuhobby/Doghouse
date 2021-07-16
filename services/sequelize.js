@@ -13,8 +13,23 @@ const sequelize = new Sequelize(
   }
 );
 
-sequelize.define("User", models.user);
-sequelize.define("Company", models.company);
-sequelize.define("Job", models.job);
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("Database connection successfully created");
+  })
+  .catch((error) => {
+    console.log(`Unable to create db connection ${error}`);
+  });
+
+sequelize.define("User", models.user, {
+  timestamps: false,
+});
+sequelize.define("Company", models.company, {
+  timestamps: false,
+});
+sequelize.define("Job", models.job, {
+  timestamps: false,
+});
 
 module.exports = sequelize;

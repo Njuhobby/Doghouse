@@ -16,12 +16,29 @@ const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 
+const unless = function (paths, middleware) {
+  return function (req, res, next) {
+    let match = false;
+    for (let i = 0; i < paths.length; i++) {
+      if (req.url.includes(paths[i])) {
+        match = true;
+        break;
+      }
+    }
+    if (match) {
+      next();
+    } else {
+      middleware(req, res, next);
+    }
+  };
+};
+
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
-app.use(authorizer);
+app.use(unless(["/users/register", "/users/login"], authorizer));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);

@@ -1,7 +1,7 @@
 const sequelize = require("./sequelize");
 const User = sequelize.model("User");
 const result = require("./dto/result");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRES_IN } = require("../const/jwt");
 
@@ -15,7 +15,7 @@ const authService = {
     if (!found) {
       found = await User.findOne({
         where: {
-          username: nameOrEmail,
+          userName: nameOrEmail,
         },
       });
       if (!found) {
@@ -23,8 +23,8 @@ const authService = {
       }
     }
 
-    bcrypt.compare(password, found.password, (err, isValid) => {
-      if (err) return result.error(err.message);
+    try {
+      const isValid = await bcrypt.compare(password, found.password);
       if (!isValid) return result.error("invalid username or email address");
 
       // found user and the password is correct
@@ -35,16 +35,18 @@ const authService = {
         token: accessToken,
         user: found,
       });
-    });
+    } catch (err) {
+      return result.error(err.message);
+    }
   },
   register: async (user) => {
     const usernameExists = await User.findAll({
       where: {
-        username: user.username,
+        userName: user.userName,
       },
     });
     if (usernameExists.length > 0)
-      return result.error(`username ${user.username} already used`);
+      return result.error(`userName ${user.userName} already used`);
     const emailExists = await User.findAll({
       where: {
         email: user.email,

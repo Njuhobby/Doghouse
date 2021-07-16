@@ -15,12 +15,25 @@ router.get("/getUser:userId", async function (req, res, next) {
   res.json(user);
 });
 
-/* POST login */
+/* POST user login */
 router.post("/login", async function (req, res, next) {
   const result = await authService.login(
     req.body.nameOrEmail,
     req.body.password
   );
+  res.json(result);
+});
+
+/* POST register new user */
+router.post("/register", async function (req, res, next) {
+  const result = await authService.register({
+    userName: req.body.userName,
+    password: req.body.password,
+    email: req.body.email,
+    role: req.body.role,
+    follower: 0,
+    following: 0,
+  });
   res.json(result);
 });
 
