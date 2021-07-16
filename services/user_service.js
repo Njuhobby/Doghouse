@@ -4,11 +4,15 @@ const result = require("./dto/result");
 
 const userService = {
   getAll: async () => {
-    const users = await User.findAll();
+    const users = await User.findAll({
+      attributes: { exclude: ["password"] },
+    });
     return result.ok(users);
   },
   getUser: async (id) => {
-    const user = await User.findByPk(id);
+    const user = await User.findByPk(id, {
+      attributes: { exclude: ["password"] },
+    });
     if (!user) return result.error("user doesn't exist");
 
     return result.ok(user);

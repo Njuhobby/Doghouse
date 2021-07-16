@@ -11,12 +11,14 @@ const authService = {
       where: {
         email: nameOrEmail,
       },
+      attributes: { exclude: ["password"] },
     });
     if (!found) {
       found = await User.findOne({
         where: {
           userName: nameOrEmail,
         },
+        attributes: { exclude: ["password"] },
       });
       if (!found) {
         return result.error("invalid username or email address");
