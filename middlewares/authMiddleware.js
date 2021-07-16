@@ -5,19 +5,20 @@ const jwtCommon = require("../const/jwt");
 const authMiddleware = function (req, res, next) {
   const { authorization } = req.headers;
   if (!authorization) {
-    res.status(403).send("Not authorized");
+    res.status(401).send("Not authorized");
   }
 
   try {
     const accessToken = authorization.split(" ")[1];
     const { userId } = jwt.verify(accessToken, jwtCommon.JWT_SECRET);
     const user = userService.getUser(userId);
+    req.user = user;
     if (!user.success) {
-      res.status(403).send("Not authorized");
+      res.status(401).send("Not authorized");
     }
     next();
   } catch (error) {
-    res.status(403).send(`Not authorized: ${error}`);
+    res.status(401).send(`Not authorized: ${error}`);
   }
 };
 

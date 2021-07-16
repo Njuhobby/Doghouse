@@ -13,10 +13,6 @@ const userService = {
 
     return result.ok(user);
   },
-  create: async (user) => {
-    await User.create(user);
-    return result.ok();
-  },
 };
 
 module.exports = userService;
