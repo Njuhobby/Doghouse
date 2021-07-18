@@ -1,14 +1,13 @@
-const sequelize = require("./sequelize");
-const Company = sequelize.model("Company");
+const unitOfWork = require("../repos/unitOfWork");
 const result = require("./dto/result");
 
 const companyService = {
   getAll: async () => {
-    const companies = await Company.findAll();
+    const companies = await unitOfWork.companyRepo.findAll();
     return result.ok(companies);
   },
   create: async (company) => {
-    await Company.create(company);
+    await unitOfWork.companyRepo.insertNew(company);
     return result.ok();
   },
 };

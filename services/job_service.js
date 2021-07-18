@@ -1,14 +1,13 @@
-const sequelize = require("./sequelize");
-const Job = sequelize.model("Job");
+const unitOfWork = require("../repos/unitOfWork");
 const result = require("./dto/result");
 
 const jobService = {
   getAll: async () => {
-    const jobs = await Job.findAll();
+    const jobs = await unitOfWork.jobRepo.getAll();
     return result.ok(jobs);
   },
   create: async (job) => {
-    await Job.create(job);
+    await unitOfWork.jobRepo.insertNew(job);
     return result.ok();
   },
 };
