@@ -3,20 +3,19 @@ const result = require("./dto/result");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRES_IN } = require("../const/jwt");
+const mapper = require("./mapper/dtoToEntityMapper");
+const errorCodes = require("../const/errorCodes");
 
 const authService = {
-  login: async (nameOrEmail, password) => {
-    let found = await unitOfWork.userRepo.findByEmail(nameOrEmail);
+  login: async (email, password) => {
+    let found = await unitOfWork.userRepo.findByEmail(email);
     if (!found) {
-      found = await unitOfWork.userRepo.findByName(nameOrEmail);
-      if (!found) {
-        return result.error("invalid username or email address");
-      }
+      return result.error(errorCodes.userNotFound);
     }
 
     try {
       const isValid = await bcrypt.compare(password, found.password);
-      if (!isValid) return result.error("invalid username or email address");
+      if (!isValid) return result.error(errorCodes.wrongPassword);
 
       // found user and the password is correct
       const accessToken = jwt.sign({ userId: found.id }, JWT_SECRET, {
@@ -30,14 +29,17 @@ const authService = {
       return result.error(err.message);
     }
   },
-  register: async (user) => {
-    const usernameExists = await unitOfWork.userRepo.findByName(user.userName);
+  register: async (userDto) => {
+    const usernameExists = await unitOfWork.userRepo.findByName(
+      userDto.userName
+    );
     if (usernameExists.length > 0)
-      return result.error(`userName ${user.userName} already used`);
-    const emailExists = await unitOfWork.userRepo.findByEmail(user.email);
+      return result.error(errorCodes.userNameAlreadyUsed);
+    const emailExists = await unitOfWork.userRepo.findByEmail(userDto.email);
     if (emailExists.length > 0)
-      return result.error(`email ${user.email} already used`);
+      return result.error(errorCodes.emailAlreadyinUse);
 
+    const user = mapper.userDtoToUser(userDto);
     user.password = await bcrypt.hash(user.password, 10);
     await unitOfWork.userRepo.insert(user);
     return result.ok();

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const userService = require("../services/user_service");
-const authService = require("../services/auth_service");
+const userService = require("../services/userService");
+const authService = require("../services/authService");
 
 /* GET all users. */
 router.get("/", async function (req, res, next) {
@@ -17,10 +17,7 @@ router.get("/getUser:userId", async function (req, res, next) {
 
 /* POST user login */
 router.post("/login", async function (req, res, next) {
-  const result = await authService.login(
-    req.body.nameOrEmail,
-    req.body.password
-  );
+  const result = await authService.login(req.body.email, req.body.password);
   res.json(result);
 });
 
@@ -31,8 +28,6 @@ router.post("/register", async function (req, res, next) {
     password: req.body.password,
     email: req.body.email,
     role: req.body.role,
-    follower: 0,
-    following: 0,
   });
   res.json(result);
 });
