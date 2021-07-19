@@ -1,9 +1,12 @@
+const defaults = require("/const/defaultValues");
+
 const dtoToEntityMapper = {
-  userDtoToUser: (userDto) => {
+  registerUserDtoToUser: (dto) => {
     return {
-      ...userDto,
+      ...dto,
       follower: 0,
       following: 0,
+      avatarUrl: defaults.defaultUserAvatarUrl,
     };
   },
 };

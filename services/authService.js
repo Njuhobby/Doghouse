@@ -29,17 +29,15 @@ const authService = {
       return result.error(err.message);
     }
   },
-  register: async (userDto) => {
-    const usernameExists = await unitOfWork.userRepo.findByName(
-      userDto.userName
-    );
+  register: async (dto) => {
+    const usernameExists = await unitOfWork.userRepo.findByName(dto.userName);
     if (usernameExists.length > 0)
       return result.error(errorCodes.userNameAlreadyUsed);
-    const emailExists = await unitOfWork.userRepo.findByEmail(userDto.email);
+    const emailExists = await unitOfWork.userRepo.findByEmail(dto.email);
     if (emailExists.length > 0)
       return result.error(errorCodes.emailAlreadyinUse);
 
-    const user = mapper.userDtoToUser(userDto);
+    const user = mapper.registerUserDtoToUser(dto);
     user.password = await bcrypt.hash(user.password, 10);
     await unitOfWork.userRepo.insert(user);
     return result.ok();

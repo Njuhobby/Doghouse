@@ -1,5 +1,7 @@
 "use strict";
 
+const defaluts = require("/const/defaultValues");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert("Users", [
@@ -7,6 +9,7 @@ module.exports = {
         userName: "admin",
         role: 0,
         email: "yihao.jiang@yuanchenggo.com",
+        avatarUrl: defaluts.defaultUserAvatarUrl,
         password: "",
         follower: 0,
         following: 0,

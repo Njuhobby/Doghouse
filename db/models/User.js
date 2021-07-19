@@ -9,6 +9,7 @@ const User = {
   userName: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   password: {
     type: DataTypes.STRING,
@@ -16,6 +17,10 @@ const User = {
   },
   role: {
     type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  avatarUrl: {
+    type: DataTypes.STRING,
     allowNull: false,
   },
   follower: {
@@ -35,6 +40,7 @@ const User = {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
+    unique: true,
   },
   company: {
     type: DataTypes.STRING,
