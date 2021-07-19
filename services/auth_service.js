@@ -1,5 +1,4 @@
-const sequelize = require("./sequelize");
-const User = sequelize.model("User");
+const unitOfWork = require("../repos/unitOfWork");
 const result = require("./dto/result");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -7,19 +6,9 @@ const { JWT_SECRET, JWT_EXPIRES_IN } = require("../const/jwt");
 
 const authService = {
   login: async (nameOrEmail, password) => {
-    let found = await User.findOne({
-      where: {
-        email: nameOrEmail,
-      },
-      attributes: { exclude: ["password"] },
-    });
+    let found = await unitOfWork.userRepo.findByEmail(nameOrEmail);
     if (!found) {
-      found = await User.findOne({
-        where: {
-          userName: nameOrEmail,
-        },
-        attributes: { exclude: ["password"] },
-      });
+      found = await unitOfWork.userRepo.findByName(nameOrEmail);
       if (!found) {
         return result.error("invalid username or email address");
       }
@@ -42,23 +31,15 @@ const authService = {
     }
   },
   register: async (user) => {
-    const usernameExists = await User.findAll({
-      where: {
-        userName: user.userName,
-      },
-    });
+    const usernameExists = await unitOfWork.userRepo.findByName(user.userName);
     if (usernameExists.length > 0)
       return result.error(`userName ${user.userName} already used`);
-    const emailExists = await User.findAll({
-      where: {
-        email: user.email,
-      },
-    });
+    const emailExists = await unitOfWork.userRepo.findByEmail(user.email);
     if (emailExists.length > 0)
       return result.error(`email ${user.email} already used`);
 
     user.password = await bcrypt.hash(user.password, 10);
-    await User.create(user);
+    await unitOfWork.userRepo.insert(user);
     return result.ok();
   },
 };

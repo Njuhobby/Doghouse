@@ -7,7 +7,7 @@ const jobService = {
     return result.ok(jobs);
   },
   create: async (job) => {
-    await unitOfWork.jobRepo.insertNew(job);
+    await unitOfWork.jobRepo.insert(job);
     return result.ok();
   },
 };

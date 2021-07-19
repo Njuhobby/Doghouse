@@ -16,6 +16,24 @@ class UserRepo extends Repo {
       attributes: { exclude: ["password"] },
     });
   }
+
+  async findByName(name) {
+    return await this.model.findOne({
+      where: {
+        userName: name,
+      },
+      attributes: { exclude: ["password"] },
+    });
+  }
+
+  async findByEmail(email) {
+    return await this.model.findOne({
+      where: {
+        email: email,
+      },
+      attributes: { exclude: ["password"] },
+    });
+  }
 }
 
 module.exports = UserRepo;

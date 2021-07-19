@@ -7,7 +7,7 @@ const companyService = {
     return result.ok(companies);
   },
   create: async (company) => {
-    await unitOfWork.companyRepo.insertNew(company);
+    await unitOfWork.companyRepo.insert(company);
     return result.ok();
   },
 };

@@ -13,7 +13,7 @@ class Repo {
     return await this.model.findAll();
   }
 
-  async insertNew(model) {
+  async insert(model) {
     await this.model.create(model);
   }
 }
