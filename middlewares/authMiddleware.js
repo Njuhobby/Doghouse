@@ -5,7 +5,7 @@ const jwtCommon = require("../const/jwt");
 const authMiddleware = async function (req, res, next) {
   const { authorization } = req.headers;
   if (!authorization) {
-    res.status(401).send("Not authorized");
+    res.status(401).send({ message: "Not authorized" });
   }
 
   try {
@@ -14,11 +14,11 @@ const authMiddleware = async function (req, res, next) {
     const user = await userService.getUser(userId);
     req.user = user;
     if (!user.success) {
-      res.status(401).send("Not authorized");
+      res.status(401).send({ message: "Not authorized" });
     }
     next();
   } catch (error) {
-    res.status(401).send(`Not authorized: ${error}`);
+    res.status(401).send({ message: `Not authorized: ${error}` });
   }
 };
 

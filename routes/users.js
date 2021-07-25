@@ -10,7 +10,7 @@ router.get("/", async function (req, res, next) {
 });
 
 /* GET specific user with pk */
-router.get("/getUser:userId", async function (req, res, next) {
+router.get("/getUser/:userId", async function (req, res, next) {
   const user = await userService.getUser(req.params.userId);
   res.parseServiceResult(user);
 });

@@ -1,6 +1,6 @@
 "use strict";
 
-const defaluts = require("/const/defaultValues");
+const defaluts = require("../../const/defaultValues");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

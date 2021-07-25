@@ -3,7 +3,8 @@ const result = require("./dto/result");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { JWT_SECRET, JWT_EXPIRES_IN } = require("../const/jwt");
-const mapper = require("./mapper/dtoToEntityMapper");
+const dteMapper = require("./mapper/dtoToEntityMapper");
+const etdMapper = require("./mapper/entityToDtoMapper");
 const errorCodes = require("../const/errorCodes");
 
 const authService = {
@@ -21,9 +22,10 @@ const authService = {
       const accessToken = jwt.sign({ userId: found.id }, JWT_SECRET, {
         expiresIn: JWT_EXPIRES_IN,
       });
+      const userDto = etdMapper.userToUserDto(found);
       return result.ok({
         token: accessToken,
-        user: found,
+        user: userDto,
       });
     } catch (err) {
       return result.error(err.message, 500);
@@ -31,13 +33,11 @@ const authService = {
   },
   register: async (dto) => {
     const usernameExists = await unitOfWork.userRepo.findByName(dto.userName);
-    if (usernameExists.length > 0)
-      return result.error(errorCodes.userNameAlreadyUsed);
+    if (usernameExists) return result.error(errorCodes.userNameAlreadyUsed);
     const emailExists = await unitOfWork.userRepo.findByEmail(dto.email);
-    if (emailExists.length > 0)
-      return result.error(errorCodes.emailAlreadyinUse);
+    if (emailExists) return result.error(errorCodes.emailAlreadyinUse);
 
-    const user = mapper.registerUserDtoToUser(dto);
+    const user = dteMapper.registerUserDtoToUser(dto);
     user.password = await bcrypt.hash(user.password, 10);
     await unitOfWork.userRepo.insert(user);
     return result.ok();

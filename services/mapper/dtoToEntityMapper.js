@@ -1,4 +1,4 @@
-const defaults = require("/const/defaultValues");
+const defaults = require("../../const/defaultValues");
 
 const dtoToEntityMapper = {
   registerUserDtoToUser: (dto) => {

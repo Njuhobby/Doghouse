@@ -1,12 +1,12 @@
 const responseCustomFunctionsMiddleware = function (req, res, next) {
   res.parseServiceResult = function (result) {
     if (result.success) {
-      this.json(result.data);
+      this.send(result.data);
     } else {
-      this.status(result.statusCode).json({ message: result.message });
+      this.status(result.statusCode).send({ message: result.message });
     }
-    next();
   };
+  next();
 };
 
 module.exports = responseCustomFunctionsMiddleware;
