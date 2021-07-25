@@ -3,9 +3,10 @@ const result = {
     success: true,
     data,
   }),
-  error: (msg) => ({
+  error: (message, statusCode = 400) => ({
     success: false,
-    msg: msg,
+    message,
+    statusCode,
   }),
 };
 

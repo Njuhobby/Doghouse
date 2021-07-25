@@ -4,6 +4,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const authorizer = require("./middlewares/authMiddleware");
+const responseCustomFunctions = require("./middlewares/responseCustomFunctionsMiddleware");
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -39,6 +40,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(unless(["/users/register", "/users/login"], authorizer));
+app.use(responseCustomFunctions);
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
@@ -52,7 +54,7 @@ app.use(function (req, res, next) {
 
 // error handler
 app.use(function (err, req, res, next) {
-  res.status(err.status || 500).send(err.message);
+  res.status(err.status || 500).json({ message: err.message });
 });
 
 module.exports = app;

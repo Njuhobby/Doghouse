@@ -6,19 +6,19 @@ const authService = require("../services/authService");
 /* GET all users. */
 router.get("/", async function (req, res, next) {
   const allUsers = await userService.getAll();
-  res.json(allUsers);
+  res.parseServiceResult(allUsers);
 });
 
 /* GET specific user with pk */
 router.get("/getUser:userId", async function (req, res, next) {
   const user = await userService.getUser(req.params.userId);
-  res.json(user);
+  res.parseServiceResult(user);
 });
 
 /* POST user login */
 router.post("/login", async function (req, res, next) {
   const result = await authService.login(req.body.email, req.body.password);
-  res.json(result);
+  res.parseServiceResult(result);
 });
 
 /* POST register new user */
@@ -29,7 +29,7 @@ router.post("/register", async function (req, res, next) {
     email: req.body.email,
     role: req.body.role,
   });
-  res.json(result);
+  res.parseServiceResult(result);
 });
 
 module.exports = router;

@@ -5,7 +5,7 @@ const companyService = require("../services/companyService");
 /* GET all companies. */
 router.get("/", async function (req, res, next) {
   const allCompanies = await companyService.getAll();
-  res.json(allCompanies);
+  res.parseServiceResult(allCompanies);
 });
 
 module.exports = router;

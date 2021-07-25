@@ -26,7 +26,7 @@ const authService = {
         user: found,
       });
     } catch (err) {
-      return result.error(err.message);
+      return result.error(err.message, 500);
     }
   },
   register: async (dto) => {
