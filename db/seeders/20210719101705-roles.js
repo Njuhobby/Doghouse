@@ -5,15 +5,15 @@ module.exports = {
     await queryInterface.bulkInsert("Roles", [
       {
         id: 0,
-        description: "Admin",
+        description: "管理员",
       },
       {
         id: 1,
-        description: "employee",
+        description: "打工人",
       },
       {
         id: 2,
-        description: "employer",
+        description: "金主",
       },
     ]);
   },
