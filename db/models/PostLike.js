@@ -1,31 +1,31 @@
 const { DataTypes } = require("sequelize");
 
-const Follower = {
+const PostLike = {
   id: {
     type: DataTypes.INTEGER,
     autoIncrement: true,
     primaryKey: true,
   },
-  who: {
+  postId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
     references: {
-      model: "Users",
+      model: "Posts",
       key: "id",
     },
+    allowNull: false,
     onUpdate: "RESTRICT",
     onDelete: "RESTRICT",
   },
-  followsWhom: {
+  userId: {
     type: DataTypes.INTEGER,
-    allowNull: false,
     references: {
       model: "Users",
       key: "id",
     },
+    allowNull: false,
     onUpdate: "RESTRICT",
     onDelete: "RESTRICT",
   },
 };
 
-module.exports = Follower;
+module.exports = PostLike;

@@ -6,7 +6,7 @@ const Company = {
     autoIncrement: true,
     primaryKey: true,
   },
-  Name: {
+  name: {
     type: DataTypes.STRING,
     allowNull: false,
   },

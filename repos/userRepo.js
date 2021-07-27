@@ -5,19 +5,21 @@ class UserRepo extends Repo {
     super("User");
   }
 
-  async findByName(name) {
+  async findByName(name, option = {}) {
     return await this.model.findOne({
       where: {
         userName: name,
       },
+      ...option,
     });
   }
 
-  async findByEmail(email) {
+  async findByEmail(email, option = {}) {
     return await this.model.findOne({
       where: {
         email: email,
       },
+      ...option,
     });
   }
 }

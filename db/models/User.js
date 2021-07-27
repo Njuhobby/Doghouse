@@ -18,9 +18,19 @@ const User = {
   role: {
     type: DataTypes.INTEGER,
     allowNull: false,
+    references: {
+      model: "Roles",
+      key: "id",
+    },
+    onUpdate: "RESTRICT",
+    onDelete: "RESTRICT",
   },
   avatarUrl: {
     type: DataTypes.STRING,
+    allowNull: false,
+  },
+  cover: {
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   follower: {
@@ -43,6 +53,9 @@ const User = {
     unique: true,
   },
   company: {
+    type: DataTypes.STRING,
+  },
+  position: {
     type: DataTypes.STRING,
   },
   school: {

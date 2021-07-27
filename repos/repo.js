@@ -5,12 +5,12 @@ class Repo {
     this.model = sequelize.model(modelName);
   }
 
-  async findByPk(id) {
-    return await this.model.findByPk(id);
+  async findByPk(id, option = {}) {
+    return await this.model.findByPk(id, option);
   }
 
-  async findAll() {
-    return await this.model.findAll();
+  async findAll(option = {}) {
+    return await this.model.findAll(option);
   }
 
   async insert(model) {

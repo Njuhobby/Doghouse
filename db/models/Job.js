@@ -12,7 +12,13 @@ const Job = {
   },
   companyId: {
     type: DataTypes.INTEGER,
+    references: {
+      model: "Companies",
+      key: "id",
+    },
     allowNull: false,
+    onUpdate: "RESTRICT",
+    onDelete: "RESTRICT",
   },
   createdAt: {
     type: DataTypes.DATEONLY,
@@ -29,6 +35,9 @@ const Job = {
   jobCategory: {
     type: DataTypes.INTEGER,
     allowNull: false,
+  },
+  salary: {
+    type: DataTypes.STRING,
   },
   postContent: {
     type: DataTypes.TEXT,
