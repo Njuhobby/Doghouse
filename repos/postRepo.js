@@ -1,4 +1,5 @@
 const Repo = require("./repo");
+const sequelize = require("../services/sequelize");
 
 class postRepo extends Repo {
   constructor() {
@@ -6,10 +7,14 @@ class postRepo extends Repo {
   }
 
   async findForUser(userId, option = {}) {
+    const user = sequelize.model("User");
+    const postComment = sequelize.model("PostComment");
+    const postLike = sequelize.model("PostLike");
     return await this.model.findAll({
       where: {
         userId: userId,
       },
+      include: [user, postLike, postComment],
       ...option,
     });
   }

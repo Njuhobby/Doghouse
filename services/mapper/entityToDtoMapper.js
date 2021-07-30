@@ -17,5 +17,9 @@ const entityToDtoMapper = {
       quote: user.dataValues.quote,
     };
   },
+
+  postToPostDto: (post) => {
+    return post;
+  },
 };
 module.exports = entityToDtoMapper;
